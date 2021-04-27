@@ -18,6 +18,10 @@ do
     esac
 done
 
+# docker run
+docker run -dit -v ../${input_dir}:/data --name tophat2 genomicpariscentre/tophat2:latest /bin/bash
+docker run -dit -v ../${input_dir}:/data --name cufflink fomightez/rnaseqcufflinks:latest /bin/bash
+
 # dir making
 docker exec -it tophat2 /bin/sh -c "mkdir -p ${outdir}/Tophat_result;mkdir -p ${outdir}/cufflinks_result"
 
