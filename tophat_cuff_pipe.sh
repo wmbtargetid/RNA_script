@@ -17,18 +17,9 @@ do
     esac
 done
 
-# # Tophat_result && cufflink dir
-# if [ ! -d ${outdir}/Tophat_result ] ; then
-#     mkdir ${outdir}/Tophat_result
-# fi
-
-# if [ ! -d ${outdir}/cufflinks_result ] ; then
-#     mkdir ${outdir}/cufflinks_result
-# fi
-
 # tophat CMD
-docker exec tophat2 /bin/sh -c "/data/script/tophat_pipe.sh -i ${indir} -o ${outdir} -x ${indexdir} -t ${thread}"
+#docker exec test_1 /bin/sh -c "/data/script/tophat_pipe.sh -i ${indir} -o ${outdir} -x ${indexdir} -t ${thread}"
 
 
 # cufflink CMD
-docker exec cufflink /bin/sh -c "/data/script/cufflink_pipe.sh -i ${outdir}/Tophat_result -o ${outdir} -x ${indexdir} -t ${thread}"
+docker exec test_2 /bin/sh -c "/data/script/cufflink_pipe.sh -i ${outdir}/Tophat_result -o ${outdir} -x ${indexdir} -t ${thread}"

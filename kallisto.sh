@@ -21,5 +21,5 @@ echo $file_list
 for file_name in $file_list
 do
     echo $file_name
-    kallisto quant -t ${thread} -i ${indexdir} -o ${outdir}/${file_name} ${dir}/${file_name}_Access_R1.fastq.gz ${dir}/${file_name}_Access_R2.fastq.gz 
+    kallisto quant -t ${thread} -i ${indexdir} -o ${outdir}/${file_name} ${dir}/${file_name}_R1.fastq.gz ${dir}/${file_name}_R2.fastq.gz 
 done

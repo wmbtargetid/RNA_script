@@ -13,12 +13,12 @@ done
 
 
 # find & unique, delemeter
-file_list=$(find ${indir} -maxdepth 1 -type f -exec basename "{}" \; | cut -d'.' -f1 | sort -u)
+file_list=$(find ${indir} -maxdepth 1 -type f -exec basename "{}" \; | cut -d'_' -f1 | sort -u)
 echo $file_list
 
 # run tophat2
 for file_name in $file_list
 do
-    echo $file_name
-    tophat2 --num-threads ${thred} -G ${indexdir}/gencode.v37.primary_assembly.annotation.gtf -o ${outdir}/Tophat_result/${file_name} ${indexdir}/hg38 ${indir}/${file_name}.R1.fq.gz ${indir}/${file_name}.R2.fq.gz
+    echo $file_name  #K1Aligned_Access_R1.fastq.gz
+    tophat2 --num-threads ${thread} -G ${indexdir}/gencode.v37.primary_assembly.annotation.gtf -o ${outdir}/Tophat_result/${file_name} ${indexdir}/hg38 ${indir}/${file_name}_Access_R1.fastq.gz ${indir}/${file_name}_Access_R2.fastq.gz
 done
