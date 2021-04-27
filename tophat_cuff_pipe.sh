@@ -2,9 +2,10 @@
 
 # container name
 # tophat, cufflink
-
 # outdir <---- in mounted point, mkdir -p [temp]/Tophat_result
 # outdir <---- in mounted point, mkdir -p [temp]/cufflinks_result
+
+# e.g) RNA_script/tophat_cuff_pipe.sh -i /data/input_dir/temp -o /data/output_dir -x /data/index -t 8
 
 # command line variable 
 while getopts i:o:x:t: flag
@@ -18,8 +19,8 @@ do
 done
 
 # tophat CMD
-#docker exec test_1 /bin/sh -c "/data/script/tophat_pipe.sh -i ${indir} -o ${outdir} -x ${indexdir} -t ${thread}"
+docker exec tophat2 /bin/sh -c "/data/script/tophat_pipe.sh -i ${indir} -o ${outdir} -x ${indexdir} -t ${thread}"
 
 
 # cufflink CMD
-docker exec test_2 /bin/sh -c "/data/script/cufflink_pipe.sh -i ${outdir}/Tophat_result -o ${outdir} -x ${indexdir} -t ${thread}"
+docker exec cufflink /bin/sh -c "/data/script/cufflink_pipe.sh -i ${outdir}/Tophat_result -o ${outdir} -x ${indexdir} -t ${thread}"
