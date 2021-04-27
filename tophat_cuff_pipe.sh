@@ -19,8 +19,8 @@ do
 done
 
 # tophat CMD
-docker exec tophat2 /bin/sh -c "/data/script/tophat_pipe.sh -i ${indir} -o ${outdir} -x ${indexdir} -t ${thread}"
+docker exec tophat2 /bin/sh -c "/data/RNA_script/tophat_pipe.sh -i ${indir} -o ${outdir} -x ${indexdir} -t ${thread}"
 
 
 # cufflink CMD
-docker exec cufflink /bin/sh -c "/data/script/cufflink_pipe.sh -i ${outdir}/Tophat_result -o ${outdir} -x ${indexdir} -t ${thread}"
+docker exec cufflink /bin/sh -c "/data/RNA_script/cufflink_pipe.sh -i ${outdir}/Tophat_result -o ${outdir} -x ${indexdir} -t ${thread}"
