@@ -1,12 +1,13 @@
 #!/bin/bash
 
-while getopts i:o::x:t: flag
+while getopts i:o::x:t:g: flag
 do
     case "${flag}" in
         i) indir=${OPTARG};;
         o) outdir=${OPTARG};;
         x) indexdir=${OPTARG};;
         t) thread=${OPTARG};;
+        g) type=${OPTARG};;
     esac
 done
 
@@ -20,5 +21,5 @@ echo $file_list
 for file_name in $file_list
 do
     echo $file_name  #K1Aligned_Access_R1.fastq.gz
-    tophat2 --num-threads ${thread} -G ${indexdir}/gencode.v37.primary_assembly.annotation.gtf -o ${outdir}/Tophat_result/${file_name} ${indexdir}/hg38 ${indir}/${file_name}_R1.fastq.gz ${indir}/${file_name}_R2.fastq.gz
+    tophat2 --num-threads ${thread} -G ${indexdir}/gencode.v37.primary_assembly.annotation.gtf -o ${outdir}/Tophat_result/${file_name} ${indexdir}/hg38 ${indir}/${file_name}_R1.${type}.gz ${indir}/${file_name}_R2.${type}.gz
 done
