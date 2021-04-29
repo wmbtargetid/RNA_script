@@ -31,3 +31,5 @@ docker exec -it tophat2 /bin/sh -c "mkdir -p ${outdir}/Tophat_result;mkdir -p ${
 docker exec tophat2 /bin/sh -c "/data/RNA_script/tophat_pipe.sh -i ${indir} -o ${outdir} -x ${indexdir} -t ${thread} -g ${type}"
 # cufflink CMD
 docker exec cufflink /bin/sh -c "/data/RNA_script/cufflink_pipe.sh -i ${outdir}/Tophat_result -o ${outdir} -x ${indexdir} -t ${thread}"
+
+docker stop tophat2 cufflink && docker rm tophat2 cufflink 
