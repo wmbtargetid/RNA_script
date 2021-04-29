@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # tophat, cufflink
-# e.g) RNA_script/tophat_cuff_pipe.sh -i /data/input_dir/temp -o /data/output_dir -x /data/index -t 8 -g fastq or fq
+# e.g)RNA_script/tophat_cuff_pipe.sh -b /home/wmbio/temp -i input_dir -x index -t 10 -g fastq
 
 # command line variable 
 while getopts b:i:x:t:g: flag
