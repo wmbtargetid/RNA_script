@@ -4,12 +4,14 @@
 
 
 # command line variable 
-while getopts i:o:x: flag
+while getopts i:o:x:n:g: flag
 do
     case "${flag}" in
         i) dir=${OPTARG};;
         o) outdir=${OPTARG};;
         x) indexdir=${OPTARG};;
+        n) thread=${OPTARG};;
+        g) type=${OPTARG};;
     esac
 done
 
@@ -20,5 +22,5 @@ echo $file_list
 for file_name in $file_list
 do
     echo $file_name
-    kallisto quant -t 8 -i ${indexdir} -o ${outdir}/${file_name} -b 100 --single -l 180 -s 20 ${dir}/${file_name}_1.fastq.gz
+    kallisto quant -t ${thread} -i ${indexdir} -o ${outdir}/${file_name} -b 100 --single -l 180 -s 20 ${dir}/${file_name}_1.${type}.gz
 done

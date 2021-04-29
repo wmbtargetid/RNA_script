@@ -1,24 +1,23 @@
 #!/bin/bash
 
-# tophat container, ~/RNA_SEQ_DNALINKS ----> /root, tophat container
-# cufflinks -p 4 -o cufflinks_result/Hct8_WT -G index/gencode.v37.primary_assembly.annotation.gtf Tophat_result/Hct8_WT/accepted_hits.bam
-# $1 file dir, /raw_data/Fastq
-# $2 out dir, /data/work/ALL_CK_LAS/ALL_ensemble/Tophat_result
-# $3 index dir, /data/work/ALL_CK_DNALINK/ALL_ensemble/index
-# ex) ./tophat_single.sh ~/RNA_SEQ_DNALINKS/GEO/FASTQ ~/RNA_SEQ_DNALINKS/work/ALL_GEO/SW480_620/Tophat_result /data/work/ALL_CK_DNALINK/ALL_ensemble/index
+while getopts i:o::x:t:g: flag
+do
+    case "${flag}" in
+        i) indir=${OPTARG};;
+        o) outdir=${OPTARG};;
+        x) indexdir=${OPTARG};;
+        t) thread=${OPTARG};;
+        g) type=${OPTARG};;
+    esac
+done
 
-# command line variable 
-dir=$1
-outdir=$2
-indexdir=$3
-name=$4
 
 # find & unique
-file_list=$(find ${dir} -maxdepth 1 -type f -name ${name}* -exec basename "{}" \; | cut -d'_' -f1 | sort -u)
+file_list=$(find ${indir} -maxdepth 1 -type f -exec basename "{}" \; | cut -d'_' -f1 | sort -u)
 echo $file_list
 
 for file_name in $file_list
 do
     echo $file_name
-    tophat2 --num-threads 20 -G ${indexdir}/gencode.v37.primary_assembly.annotation.gtf -o ${outdir}/${file_name} ${indexdir}/hg38 ${dir}/${file_name}_1.fastq.gz
+    tophat2 --num-threads ${thread} -G ${indexdir}/gencode.v37.primary_assembly.annotation.gtf -o ${outdir}/${file_name} ${indexdir}/hg38 ${indir}/${file_name}_1.${type}.gz
 done
