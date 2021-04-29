@@ -21,9 +21,9 @@ done
 # index file download
 
 # tophat container
-docker run -dit -v ${basedir}:/data --name tophat2 genomicpariscentre/tophat2:latest /bin/bash
+docker run --rm -dit -v ${basedir}:/data --name tophat2 genomicpariscentre/tophat2:latest /bin/bash
 # cufflink container
-docker run -dit -v ${basedir}:/data --name cufflink fomightez/rnaseqcufflinks:latest /bin/bash
+docker run --rm -dit -v ${basedir}:/data --name cufflink fomightez/rnaseqcufflinks:latest /bin/bash
 
 # dir making
 docker exec -it tophat2 /bin/sh -c "mkdir -p /data/output_dir/Tophat_result;mkdir -p /data/output_dir/cufflinks_result;chmod -R 777 /data/output_dir"
@@ -33,4 +33,4 @@ docker exec tophat2 /bin/sh -c "/data/RNA_script/tophat_pipe.sh -i /data/${indir
 # cufflink CMD
 docker exec cufflink /bin/sh -c "/data/RNA_script/cufflink_pipe.sh -i /data/output_dir/Tophat_result -o /data/output_dir -x /data/${indexdir} -t ${thread}"
 
-docker stop tophat2 cufflink && docker rm tophat2 cufflink 
+docker stop tophat2 cufflink
