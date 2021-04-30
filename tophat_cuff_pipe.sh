@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # tophat, cufflink
-# e.g)RNA_script/tophat_cuff_pipe.sh -b /home/wmbio/temp -i input_dir -x index -t 10 -g fastq
-
+#  RNA_script/tophat_cuff_pipe.sh -n ID -p PASSWORD -h NAS -b /home/wmbio/temp -i input_dir -x index -t 10 -g fastq
 # command line variable 
-while getopts b:i:x:t:g: flag
+while getopts n:p:h:b:i:x:t:g: flag
 do
     case "${flag}" in
+        n) nasid=${OPTARG};;
+        p) naspw=${OPTARG};;
+        h) nas=${OPTARG};;
         b) basedir=${OPTARG};;
         i) indir=${OPTARG};;
         x) indexdir=${OPTARG};;
@@ -19,6 +21,8 @@ done
 # git clone https://github.com/Jin0331/RNA_script.git ${basedir}/RNA_script
 
 # index file download
+ncftpget -u ${nasid} -p ${naspw} ${nas} ${basedir} /Share/index.tar.gz
+tar -xzvf index.tar.gz
 
 # tophat container
 docker run --rm -dit -v ${basedir}:/data --name tophat2 genomicpariscentre/tophat2:latest /bin/bash
