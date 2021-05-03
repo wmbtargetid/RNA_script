@@ -24,7 +24,7 @@ done
 # index file download
 if [ ! -d ${basedir}/index ];then
     echo "No Index dir"
-    ncftpget -u ${nasid} -p ${naspw} ${nas} ${basedir} /Share/index.tar.gz
+    ncftpget -u ${nasid} -p ${naspw} ${nas} ${basedir} /volume1/Data/RNA_SEQ/work/index.tar.gz
     tar -xzvf index.tar.gz -C ${basedir}
 else
     echo "Index dir exist!"
