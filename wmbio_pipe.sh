@@ -33,8 +33,10 @@ fi
 
 
 
+
 ## Docker run
 docker stop trim_galore tophat2 cufflink kallisto && docker rm trim_galore tophat2 cufflink kallisto
+echo "Trim Galore, Tophat2, Cufflink, Kallisto Docker Container RUN!!!"
 # trimgalore
 docker run --rm -dit -v ${basedir}:/data --name trim_galore dukegcb/trim-galore:latest /bin/bash
 # kallisto docker
@@ -45,7 +47,7 @@ docker run --rm -dit -v ${basedir}:/data --name tophat2 genomicpariscentre/topha
 docker run --rm -dit -v ${basedir}:/data --name cufflink fomightez/rnaseqcufflinks:latest /bin/bash
 
 # dir making
-docker exec -it tophat2 /bin/sh -c "mkdir -p /data/output_dir/QC; mkdir -p /data/output_dir/Tophat_result;mkdir -p /data/output_dir/cufflinks_result;chmod -R 777 /data/output_dir"
+docker exec -it tophat2 /bin/sh -c "mkdir -p /data/output_dir/QC; mkdir -p /data/output_dir/Tophat_result;mkdir -p /data/output_dir/cufflinks_result;mkdir -p /data/output_dir/kallisto_result;chmod -R 777 /data/output_dir"
 
 ## RUN pipeline
 # trim_galore CMD
@@ -54,12 +56,9 @@ docker exec trim_galore /bin/sh -c "/data/RNA_script/trim_galore_pipe.sh -i /dat
 
 if [ ${run} = "a" ];then
 
-    # output_dir
-    docker exec -it kallisto /bin/sh -c "mkdir -p /data/kallisto_output;chmod -R 777 /data/kallisto_output"
-
     # kallisto CMD
     echo "KALLISTO RUN!!!!!!!!"
-    docker exec kallisto /bin/sh -c "/data/RNA_script/kallisto_pipe.sh -i /data/output_dir/QC -o /data/kallisto_output -x /data/${indexdir}/kallisto_index/Homo_sapiens.GRCh38.cdna.all_add_RON_del.idx -t ${thread} -g ${type}"
+    docker exec kallisto /bin/sh -c "/data/RNA_script/kallisto_pipe.sh -i /data/output_dir/QC -o /data/output_dir/kallisto_result -x /data/${indexdir}/kallisto_index/Homo_sapiens.GRCh38.cdna.all_add_RON_del.idx -t ${thread} -g ${type}"
 
     # tophat CMD
     echo "Tophat2 RUN!!!!!!!!"
@@ -74,12 +73,9 @@ if [ ${run} = "a" ];then
 
 elif [ ${run} = "k" ];then
 
-    # output_dir
-    docker exec -it kallisto /bin/sh -c "mkdir -p /data/kallisto_output;chmod -R 777 /data/kallisto_output"
-
     # kallisto CMD
     echo "KALLISTO RUN!!!!!!!!"
-    docker exec kallisto /bin/sh -c "/data/RNA_script/kallisto_pipe.sh -i /data/output_dir/QC -o /data/kallisto_output -x /data/${indexdir}/kallisto_index/Homo_sapiens.GRCh38.cdna.all_add_RON_del.idx -t ${thread} -g ${type}"
+    docker exec kallisto /bin/sh -c "/data/RNA_script/kallisto_pipe.sh -i /data/output_dir/QC -o /data/output_dir/kallisto_result -x /data/${indexdir}/kallisto_index/Homo_sapiens.GRCh38.cdna.all_add_RON_del.idx -t ${thread} -g ${type}"
 
     echo "DONE!!!"
     docker stop trim_galore tophat2 cufflink kallisto
@@ -95,7 +91,7 @@ elif [ ${run} = "t" ];then
 
     echo "DONE!!!"
     docker stop trim_galore tophat2 cufflink kallisto
-    
+
 else
     echo "No Run type!!!"
 fi
