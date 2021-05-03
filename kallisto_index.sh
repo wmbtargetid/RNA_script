@@ -1,8 +1,3 @@
-#!/bin/bash
-
-# ./kallisto.sh -i /home/wmbio/DNA_LINKS_DATA/Fastq_BAM/RNASeq_bamtofastq -o /home/wmbio/RNA_SEQ_DNALINKS/kallisto/kallisto_result/tissue_DNALINKS -x /home/wmbio/RNA_SEQ_DNALINKS/kallisto/kallisto_index/Homo_sapiens.GRCh38.cdna.all_add_RON_del.idx
-
-
 # command line variable 
 while getopts i:o:x:n:g: flag
 do

@@ -24,7 +24,7 @@ done
 # index file download
 if [ ! -d ${basedir}/index ];then
     echo "No Index dir"
-    ncftpget -u ${nasid} -p ${naspw} ${nas} ${basedir} /volume1/Data/RNA_SEQ/work/index.tar.gz
+    ncftpget -u ${nasid} -p ${naspw} ${nas} ${basedir} /Data/RNA_SEQ/work/index.tar.gz
     tar -xzvf index.tar.gz -C ${basedir}
 else
     echo "Index dir exist!"
@@ -50,11 +50,11 @@ docker exec trim_galore /bin/sh -c "/data/RNA_script/trim_galore_pipe.sh -i /dat
 
 # tophat CMD
 echo "Tophat2 RUN!!!!!!!!"
-docker exec tophat2 /bin/sh -c "/data/RNA_script/tophat_pipe.sh -i /data/output_dir/QC -o /data/output_dir -x /data/${indexdir} -t ${thread} -g ${type}"
+docker exec tophat2 /bin/sh -c "/data/RNA_script/tophat_pipe.sh -i /data/output_dir/QC -o /data/output_dir -x /data/${indexdir}/genome_index -t ${thread} -g ${type}"
 
 # cufflink CMD
 echo "CUFFLINKS RUN!!!!!!!!"
-docker exec cufflink /bin/sh -c "/data/RNA_script/cufflink_pipe.sh -i /data/output_dir/Tophat_result -o /data/output_dir -x /data/${indexdir} -t ${thread}"
+docker exec cufflink /bin/sh -c "/data/RNA_script/cufflink_pipe.sh -i /data/output_dir/Tophat_result -o /data/output_dir -x /data/${indexdir}/genome_index -t ${thread}"
 
 # done
 docker stop trim_galore tophat2 cufflink
