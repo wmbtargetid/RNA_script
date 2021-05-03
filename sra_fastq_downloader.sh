@@ -7,5 +7,5 @@ filename=$2
 while read line; do
 # reading each line
     echo $line
-    docker run --rm -v ${basedir}/:/data pegi3s/sratoolkit fasterq-dump -e 10 -F --split-files ${line} --outdir /data
+    docker run --rm -v ${basedir}/:/data pegi3s/sratoolkit fastq-dump -F --split-files ${line} --outdir /data
 done < $filename
