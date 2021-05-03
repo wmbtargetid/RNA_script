@@ -71,6 +71,7 @@ if [ ${run} = "a" ];then
     # done
     echo "DONE!!!"
     docker stop trim_galore tophat2 cufflink kallisto
+
 elif [ ${run} = "k" ];then
 
     # output_dir
@@ -94,6 +95,7 @@ elif [ ${run} = "t" ];then
 
     echo "DONE!!!"
     docker stop trim_galore tophat2 cufflink kallisto
+    
 else
     echo "No Run type!!!"
 fi
