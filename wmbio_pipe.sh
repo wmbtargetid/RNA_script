@@ -3,7 +3,7 @@
 # tophat, cufflink
 # RUN ex) RNA_script/wmbio_pipe.sh -r a -n jinoo -p Wmlswkdia1! -h 192.168.0.90 -b /home/wmbio/temp -i input_dir -x index -t 30 -g fq
 # command line variable 
-while getopts r:n:p:h:b:i:x:t:g: flag
+while getopts r:n:p:h:b:i:t:g: flag
 do
     case "${flag}" in
         r) run=${OPTARG};;
@@ -12,7 +12,6 @@ do
         h) nas=${OPTARG};;
         b) basedir=${OPTARG};;
         i) indir=${OPTARG};;
-        x) indexdir=${OPTARG};;
         t) thread=${OPTARG};;
         g) type=${OPTARG};;
     esac
@@ -58,15 +57,15 @@ if [ ${run} = "a" ];then
 
     # kallisto CMD
     echo "KALLISTO RUN!!!!!!!!"
-    docker exec kallisto /bin/sh -c "/data/RNA_script/kallisto_pipe.sh -i /data/output_dir/QC -o /data/output_dir/kallisto_result -x /data/${indexdir}/kallisto_index/Homo_sapiens.GRCh38.cdna.all_add_RON_del.idx -t ${thread} -g ${type}"
+    docker exec kallisto /bin/sh -c "/data/RNA_script/kallisto_pipe.sh -i /data/output_dir/QC -o /data/output_dir/kallisto_result -x /data/index/kallisto_index/Homo_sapiens.GRCh38.cdna.all_add_RON_del.idx -t ${thread} -g ${type}"
 
     # tophat CMD
     echo "Tophat2 RUN!!!!!!!!"
-    docker exec tophat2 /bin/sh -c "/data/RNA_script/tophat_pipe.sh -i /data/output_dir/QC -o /data/output_dir -x /data/${indexdir}/genome_index -t ${thread} -g ${type}"
+    docker exec tophat2 /bin/sh -c "/data/RNA_script/tophat_pipe.sh -i /data/output_dir/QC -o /data/output_dir -x /data/index/genome_index -t ${thread} -g ${type}"
 
     # cufflink CMD
     echo "CUFFLINKS RUN!!!!!!!!"
-    docker exec cufflink /bin/sh -c "/data/RNA_script/cufflink_pipe.sh -i /data/output_dir/Tophat_result -o /data/output_dir -x /data/${indexdir}/genome_index -t ${thread}"
+    docker exec cufflink /bin/sh -c "/data/RNA_script/cufflink_pipe.sh -i /data/output_dir/Tophat_result -o /data/output_dir -x /data/index/genome_index -t ${thread}"
     # done
     echo "DONE!!!"
     docker stop trim_galore tophat2 cufflink kallisto
@@ -75,7 +74,7 @@ elif [ ${run} = "k" ];then
 
     # kallisto CMD
     echo "KALLISTO RUN!!!!!!!!"
-    docker exec kallisto /bin/sh -c "/data/RNA_script/kallisto_pipe.sh -i /data/output_dir/QC -o /data/output_dir/kallisto_result -x /data/${indexdir}/kallisto_index/Homo_sapiens.GRCh38.cdna.all_add_RON_del.idx -t ${thread} -g ${type}"
+    docker exec kallisto /bin/sh -c "/data/RNA_script/kallisto_pipe.sh -i /data/output_dir/QC -o /data/output_dir/kallisto_result -x /data/index/kallisto_index/Homo_sapiens.GRCh38.cdna.all_add_RON_del.idx -t ${thread} -g ${type}"
 
     echo "DONE!!!"
     docker stop trim_galore tophat2 cufflink kallisto
@@ -83,11 +82,11 @@ elif [ ${run} = "k" ];then
 elif [ ${run} = "t" ];then
     # tophat CMD
     echo "Tophat2 RUN!!!!!!!!"
-    docker exec tophat2 /bin/sh -c "/data/RNA_script/tophat_pipe.sh -i /data/output_dir/QC -o /data/output_dir -x /data/${indexdir}/genome_index -t ${thread} -g ${type}"
+    docker exec tophat2 /bin/sh -c "/data/RNA_script/tophat_pipe.sh -i /data/output_dir/QC -o /data/output_dir -x /data/index/genome_index -t ${thread} -g ${type}"
 
     # cufflink CMD
     echo "CUFFLINKS RUN!!!!!!!!"
-    docker exec cufflink /bin/sh -c "/data/RNA_script/cufflink_pipe.sh -i /data/output_dir/Tophat_result -o /data/output_dir -x /data/${indexdir}/genome_index -t ${thread}"
+    docker exec cufflink /bin/sh -c "/data/RNA_script/cufflink_pipe.sh -i /data/output_dir/Tophat_result -o /data/output_dir -x /data/index/genome_index -t ${thread}"
 
     echo "DONE!!!"
     docker stop trim_galore tophat2 cufflink kallisto
